@@ -1,0 +1,6 @@
+{
+  "modelName": "Define Model Name",
+  "isSklearn": "If modle is sklearn than True else False",
+  "params": "Params for the model defined",
+  "other things": "other things to be defined here"
+}
