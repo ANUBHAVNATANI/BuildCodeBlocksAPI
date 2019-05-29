@@ -1,6 +1,10 @@
 {
-  "modelName": "Define Model Name",
-  "isSklearn": "If modle is sklearn than True else False",
-  "params": "Params for the model defined",
-  "other things": "other things to be defined here"
+  "filePaths": ["relative filepath list"],
+  "function": [
+    {
+      "functionName": "Function Name",
+      "args": "Arguments Of Function",
+      "out": "Variable In Which Output of function should go"
+    }
+  ]
 }
