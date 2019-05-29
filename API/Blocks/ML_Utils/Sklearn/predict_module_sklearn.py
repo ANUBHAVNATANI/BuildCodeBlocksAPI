@@ -2,6 +2,7 @@
 """
 Sklearn module prediction function
 Docs--
+model accept previous function input
 """
 
 
