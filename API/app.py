@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import traceback
 import os
 import json
+
 # API definition
 app = Flask(__name__)
 
@@ -56,13 +57,22 @@ def block():
 
             additional_code = mainFunctionCode+runningCode
             out_file.writelines(additional_code)
+            # if file completing successfull then status 1 else status 0
+        return jsonify({'fileStatus': "1"})
+    except:
+        return jsonify({'trace': traceback.format_exc()})
 
-        what_code_get = "Write in next lines code to get code"
-        return jsonify({'code': str(what_code_get)})
+
+@app.route("/convertedFile")
+def DownloadLogFile():
+    try:
+        basepath = os.path.dirname(__file__)
+        filepath_master = os.path.abspath(
+            os.path.join(basepath, "..", "..", "/covFile.py"))
+        return send_file(filepath_master, as_attachment=True)
     except:
         return jsonify({'trace': traceback.format_exc()})
 
 
 if __name__ == '__main__':
-
     app.run(debug=True)
