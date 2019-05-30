@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 import traceback
 import os
 import json
@@ -7,9 +7,10 @@ import json
 app = Flask(__name__)
 
 
+# Webpage to be made for this route
 @app.route("/")
 def home():
-    return "This is an api that provieds info about the blocks"
+    return render_template('index.html')
 
 # this code generates a cov_file in which the resulting code resides till now
 @app.route('/giveBlock', methods=['POST', 'GET'])
@@ -20,19 +21,20 @@ def block():
         # getting file paths from the database
         # getting the json files and list of filepaths from the json file
         # json_[filePaths] is the list containing the relative file paths of the files
-        filePaths = json_["filePaths"]
-
+        filePaths = [block["filePath"] for block in json_["function"]]
         # compiling the file paths from the database
         basepath = os.path.dirname(__file__)
-        filepath_master = os.path.abspath(
+        filepathMaster = os.path.abspath(
             os.path.join(basepath, "..", "..", "/covFile.py"))
         for i in range(len(filePaths)):
             rfilePath = filePaths[i]
             # path gen code
             filePaths[i] = os.path.abspath(
                 os.path.join(basepath, "..", "..", rfilePath))
+        # reversing file paths for the correct order
         filePaths.reverse()
-        with open(filepath_master, "w") as out_file:
+        # writing output to another file
+        with open(filepathMaster, "w") as out_file:
             for filePath in filePaths:
                 with open(filePath, "r") as in_file:
                     for l in in_file.readlines():
@@ -42,13 +44,29 @@ def block():
             mainFunctionCode = 'if __name__ == "__main__":'
             # Combining Function Code with args
             fullFunctions = []
-
+            # not needed but of safety purposes
+            currFunctionList = []
             for i in range(len(json_["function"])):
                 function = json_["function"][i]
+                currFunctionList.append(function)
                 functionName = function["functionName"]
                 args = function["args"]
                 out = function["out"]
-                newFunctionName = out+"="+functionName+"("+args+")"
+                try:
+                    inp = function["in"]
+                    # can support multiple input by split function
+                    # currently not supported multiple inputs
+                    for i in currFunctionList:
+                        if(i["functionName"] == inp):
+                            inpo = i["out"]
+                            break
+                except:
+                    inpo = None
+                if(inpo == None):
+                    newFunctionName = out+"="+functionName+"("+args+")"
+                else:
+                    newFunctionName = out+"=" + \
+                        functionName+"("+args+","+inpo+")"
                 fullFunctions.append(newFunctionName)
 
             runningCode = ""
@@ -67,9 +85,9 @@ def block():
 def DownloadLogFile():
     try:
         basepath = os.path.dirname(__file__)
-        filepath_master = os.path.abspath(
+        filepathMaster = os.path.abspath(
             os.path.join(basepath, "..", "..", "/covFile.py"))
-        return send_file(filepath_master, as_attachment=True)
+        return send_file(filepathMaster, as_attachment=True)
     except:
         return jsonify({'trace': traceback.format_exc()})
 
