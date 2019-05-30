@@ -1,10 +1,11 @@
 {
-  "filePaths": ["relative filepath list"],
   "function": [
     {
       "functionName": "Function Name",
-      "args": "Arguments Of Function",
-      "out": "Variable In Which Output of function should go"
+      "args": "Arguments Of Function wheather from user or from database",
+      "out": "Variable In Which Output of function should go (Alphabatically given),Multiple outputs can also be specified",
+      "in": "Previous Block Name which is connected to this block,Multiple input can also be specified but order maintain",
+      "filePath": "FilePath of the block to be taken from the database and given here"
     }
   ]
 }

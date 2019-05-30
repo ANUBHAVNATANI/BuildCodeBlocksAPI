@@ -1,24 +1,24 @@
 {
-  "filePaths": [
-    "BUILDCODE/API/Blocks/ML_Utils/Sklearn/predict_module_sklearn.py",
-    "BUILDCODE/API/Blocks/ML_Utils/Sklearn/train_module_sklearn.py",
-    "BUILDCODE/API/Blocks/TraditionalML/Sklearn/linear_reg.py"
-  ],
   "function": [
     {
       "functionName": "SimpleLinearRegression",
       "args": "True,False",
-      "out": "c"
+      "out": "a",
+      "filePath": "BuildCodeBlocksAPI/Blocks/ML_Utils/Sklearn/predict_module_sklearn.py"
     },
     {
       "functionName": "train",
       "args": "[[0], [1], [2]], [[0], [1], [2]], c",
-      "out": "d"
+      "out": "b",
+      "in": "SimpleLinearRegression",
+      "filePath": "BuildCodeBlocksAPI/Blocks/ML_Utils/Sklearn/train_module_sklearn.py"
     },
     {
       "functionName": "predict",
       "args": "[[0]],d",
-      "out": "e"
+      "out": "c",
+      "in": "train",
+      "filePath": "BuildCodeBlocksAPI/Blocks/TraditionalML/Sklearn/linear_reg.py"
     }
   ]
 }
