@@ -40,6 +40,6 @@ def predict(X, model):
 
 
 if __name__ == "__main__":
-	c=SimpleLinearRegression(True,False)
-	d=train([[0], [1], [2]], [[0], [1], [2]], c)
-	e=predict([[0]],d)
+    a = SimpleLinearRegression(True, False)
+    b = train([[0], [1], [2]], [[0], [1], [2]], a)
+    c = predict([[0]], b)
