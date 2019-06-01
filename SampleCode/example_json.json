@@ -4,21 +4,21 @@
       "functionName": "SimpleLinearRegression",
       "args": "True,False",
       "out": "a",
-      "filePath": "BuildCodeBlocksAPI/Blocks/ML_Utils/Sklearn/predict_module_sklearn.py"
+      "filePath": "/Python/ML_Utils/Sklearn/predict_module_sklearn.py"
     },
     {
       "functionName": "train",
       "args": "[[0], [1], [2]], [[0], [1], [2]], c",
       "out": "b",
       "in": "SimpleLinearRegression",
-      "filePath": "BuildCodeBlocksAPI/Blocks/ML_Utils/Sklearn/train_module_sklearn.py"
+      "filePath": "/Python/ML_Utils/Sklearn/train_module_sklearn.py"
     },
     {
       "functionName": "predict",
       "args": "[[0]],d",
       "out": "c",
       "in": "train",
-      "filePath": "BuildCodeBlocksAPI/Blocks/TraditionalML/Sklearn/linear_reg.py"
+      "filePath": "/Python/TraditionalML/Sklearn/linear_reg.py"
     }
   ]
 }
