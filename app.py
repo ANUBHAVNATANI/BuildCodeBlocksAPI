@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_file, render_template
 import traceback
 import os
-import json
 
 # API definition
 app = Flask(__name__)
@@ -23,14 +22,12 @@ def block():
         # json_[filePaths] is the list containing the relative file paths of the files
         filePaths = [block["filePath"] for block in json_["function"]]
         # compiling the file paths from the database
-        basepath = os.path.dirname(__file__)
-        filepathMaster = os.path.abspath(
-            os.path.join(basepath, "..", "..", "/covFile.py"))
+        filepathMaster = os.path.join(os.getcwd(), "covFile.py")
         for i in range(len(filePaths)):
             rfilePath = filePaths[i]
             # path gen code
-            filePaths[i] = os.path.abspath(
-                os.path.join(basepath, "..", "..", rfilePath))
+            filePaths[i] = os.path.join(
+                os.getcwd(), "BuildCodeBlocksAPI", "Blocks", rfilePath)
         # reversing file paths for the correct order
         filePaths.reverse()
         # writing output to another file
@@ -84,9 +81,7 @@ def block():
 @app.route("/convertedFile")
 def DownloadLogFile():
     try:
-        basepath = os.path.dirname(__file__)
-        filepathMaster = os.path.abspath(
-            os.path.join(basepath, "..", "..", "/covFile.py"))
+        filepathMaster = os.path.join(os.getcwd(), "covFile.py")
         return send_file(filepathMaster, as_attachment=True)
     except:
         return jsonify({'trace': traceback.format_exc()})
