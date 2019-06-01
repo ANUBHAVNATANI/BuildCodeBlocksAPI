@@ -5,4 +5,4 @@ Link to API currently hosted on two platforms
 1.Heroku
 https://build-code.herokuapp.com/
 2.PythonAnywhre
-buildcode.pythonanywhere.com
+http://buildcode.pythonanywhere.com/
