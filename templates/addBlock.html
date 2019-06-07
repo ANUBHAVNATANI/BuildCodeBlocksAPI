@@ -12,12 +12,16 @@
     <center>
       <form method="POST" action="{{ url_for('addBlock') }}">
         <br />
-        BlockName<input type="text" name="blockName" /> <br />Args<input
+        BlockName<input type="text" name="blockName" /> <br />
+        In<input type="text" name="in" /> <br /><br />Args<input
           type="text"
           name="args"
         /><br />
         BlockPath<input type="text" name="filePath" /><br />
-        <button type="submit">Predict</button>
+        <br />
+        Out<input type="text" name="out" />
+        <br />
+        <button type="submit">Submit Request</button>
       </form>
     </center>
   </body>
