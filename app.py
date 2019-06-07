@@ -1,15 +1,55 @@
+# imports
 from flask import Flask, request, jsonify, send_file, render_template
 import traceback
 import os
+# importing database created from the database.py file
+from database import db
 
 # API definition
 app = Flask(__name__)
-
 
 # Webpage to be made for this route
 @app.route("/")
 def home():
     return render_template('index.html')
+
+# webpage for adding a block to the database
+
+
+@app.route("/addBlock")
+def addBlockPage():
+    return render_template("addBlock.html")
+
+# endpoint for creating a block entry in the database
+@app.route("/addblockrequest", methods=["POST"])
+def addBlock():
+    functionName = str(request.form['blockName'])
+    args = str(request.form['args'])
+    filePath = str(request.form['filePath'])
+    block = {"functionName": functionName, "args": args, "filePath": filePath}
+    # python way to split the data
+    sect = filePath.split("/")
+    c = db
+    for i in range(0, len(sect)-1):
+        c = c.child(sect[i])
+    c = c.child(functionName)
+    c.set(block)
+    return render_template("successfullBlock.html", blockName=functionName)
+
+
+# endpoint to show all the users
+@app.route("/getBlocks", methods=["GET"])
+def get_blocks():
+    # specific type of data demanding code
+    """
+    json_ = request.json
+    if(json_["type"]=="all"):
+        return jsonify(data)
+    """
+    # current code
+    allBlocks = db.child("Python").get()
+    return jsonify(allBlocks.val())
+
 
 # this code generates a cov_file in which the resulting code resides till now
 @app.route('/giveBlock', methods=['POST', 'GET'])
