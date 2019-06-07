@@ -24,10 +24,18 @@ def addBlockPage():
 @app.route("/addblockrequest", methods=["POST"])
 def addBlock():
     functionName = str(request.form['blockName'])
+    # Arrange args in a dict form
+    # -----------------------------
     args = str(request.form['args'])
     filePath = str(request.form['filePath'])
     filePath = filePath.replace("\\", '/')
-    block = {"functionName": functionName, "args": args, "filePath": filePath}
+    # explicit in and out [] function
+    # to be made
+    # -------------------------
+    out = str(request.form['out'])
+    ins = str(request.form['in'])
+    block = {"functionName": functionName,
+             "args": args, "filePath": filePath, "out": out, "in": ins}
     # python way to split the data
     sect = filePath.split("/")
     c = db
@@ -56,12 +64,15 @@ def get_blocks():
 @app.route('/giveBlock', methods=['POST', 'GET'])
 def block():
     try:
+        # To be updated according to the new sample json file
+        # -------------------------------------------------
+
         # json file with the requirements from the client side
         json_ = request.json
         # getting file paths from the database
         # getting the json files and list of filepaths from the json file
         # json_[filePaths] is the list containing the relative file paths of the files
-        filePaths = [block["filePath"] for block in json_["function"]]
+        filePaths = [block["filePath"] for block in json_["blocks"]]
         # compiling the file paths from the database
         filepathMaster = os.path.join(os.getcwd(), "covFile.py")
         for i in range(len(filePaths)):
@@ -84,10 +95,10 @@ def block():
             fullFunctions = []
             # not needed but of safety purposes
             currFunctionList = []
-            for i in range(len(json_["function"])):
-                function = json_["function"][i]
+            for i in range(len(json_["blocks"])):
+                function = json_["blocks"][i]
                 currFunctionList.append(function)
-                functionName = function["functionName"]
+                functionName = function["blockName"]
                 args = function["args"]
                 out = function["out"]
                 try:
