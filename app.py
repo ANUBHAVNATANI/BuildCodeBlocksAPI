@@ -26,6 +26,7 @@ def addBlock():
     functionName = str(request.form['blockName'])
     args = str(request.form['args'])
     filePath = str(request.form['filePath'])
+    filePath = filePath.replace("\\", '/')
     block = {"functionName": functionName, "args": args, "filePath": filePath}
     # python way to split the data
     sect = filePath.split("/")
