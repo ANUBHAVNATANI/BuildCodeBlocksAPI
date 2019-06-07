@@ -14,14 +14,14 @@
       "in": ["X", "y"],
       "args": { "fit_intercept": "True" },
       "out": ["model"],
-      "filePath": "/Python/ML_Utils/Sklearn/predict_module_sklearn.py"
+      "filePath": "/Python/MachineLearning/linearRegression.py"
     },
     {
       "blockName": "Prediction",
       "in": ["X", "model"],
       "args": "",
       "out": ["pred"],
-      "filePath": "/Python/TraditionalML/Sklearn/linear_reg.py"
+      "filePath": "/Python/MachineLearning/prediction.py"
     }
   ]
 }
