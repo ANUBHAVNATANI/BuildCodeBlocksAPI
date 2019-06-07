@@ -1,23 +1,26 @@
 {
-  "function": [
+  "blocks": [
     {
-      "functionName": "SimpleLinearRegression",
-      "args": "True,False",
-      "out": "a",
+      "blockName": "CSVRead",
+      "in": ["file"],
+      "args": {
+        "Y": "label"
+      },
+      "out": [["X", "y"], ["data"]],
+      "filePath": "/Python/Data/csvRead.py"
+    },
+    {
+      "blockName": "Linear Regression",
+      "in": ["X", "y"],
+      "args": { "fit_intercept": "True" },
+      "out": ["model"],
       "filePath": "/Python/ML_Utils/Sklearn/predict_module_sklearn.py"
     },
     {
-      "functionName": "train",
-      "args": "[[0], [1], [2]], [[0], [1], [2]], c",
-      "out": "b",
-      "in": "SimpleLinearRegression",
-      "filePath": "/Python/ML_Utils/Sklearn/train_module_sklearn.py"
-    },
-    {
-      "functionName": "predict",
-      "args": "[[0]],d",
-      "out": "c",
-      "in": "train",
+      "blockName": "Prediction",
+      "in": ["X", "model"],
+      "args": "",
+      "out": ["pred"],
       "filePath": "/Python/TraditionalML/Sklearn/linear_reg.py"
     }
   ]
