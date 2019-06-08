@@ -2,23 +2,23 @@
   "blocks": [
     {
       "blockName": "CSVRead",
-      "in": ["file"],
+      "in": { "file": "user" },
       "args": {
         "Y": "label"
       },
-      "out": [["X", "y"], ["data"]],
+      "out": ["X", "y"],
       "filePath": "/Python/Data/csvRead.py"
     },
     {
       "blockName": "Linear Regression",
-      "in": ["X", "y"],
+      "in": { "X": "CSVRead", "y": "CSVRead" },
       "args": { "fit_intercept": "True" },
       "out": ["model"],
       "filePath": "/Python/MachineLearning/linearRegression.py"
     },
     {
       "blockName": "Prediction",
-      "in": ["X", "model"],
+      "in": { "X": "user", "model": "Linear Regression" },
       "args": "",
       "out": ["pred"],
       "filePath": "/Python/MachineLearning/prediction.py"
