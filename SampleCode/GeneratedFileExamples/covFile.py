@@ -1,45 +1,36 @@
-# imports
+import pandas as pd
 from sklearn.linear_model import LinearRegression
-import numpy as np
-
-# Model Function
-"""
-Linear Regression
-Docs--
-"""
 
 
-def SimpleLinearRegression(fit_intercept=True, normalize=False):
-    reg = LinearRegression(fit_intercept, normalize)
-    return reg
+# expand function for all type of file
 
 
-# Train Function
-"""
-Sklearn module training function
-Docs--
-model accept previous function input
-"""
+def csvRead(file, Y=None):
+    data = pd.read_csv(file)
+    if(Y == None):
+        return data
+    else:
+        y = data[Y]
+        X = data.drop([Y], axis=1)
+        return X, y
 
 
-def train(X, y, model):
+# linear regression model
+
+
+def linearRegression(X, y, fit_intercept=True):
+    model = LinearRegression(fit_intercept)
     model.fit(X, y)
     return model
 
 
 # Predict Function
-"""
-Sklearn module prediction function
-Docs--
-model accept previous function input
-"""
-
-
 def predict(X, model):
-    return model.predict(X)
+    pred = model.predict(X)
+    return pred
 
 
 if __name__ == "__main__":
-    a = SimpleLinearRegression(True, False)
-    b = train([[0], [1], [2]], [[0], [1], [2]], a)
-    c = predict([[0]], b)
+    X0, y0 = CSVRead(user, Y=label)
+    model1 = Linear Regression(X0, y0, fit_intercept=True)
+    pred2 = Prediction(user, model1)
