@@ -4,7 +4,9 @@ import traceback
 import os
 # importing database created from the database.py file
 from database import db
-
+from getBlock import getblock
+from addBlock import addblock
+from codeGen import codeGenerator
 # API definition
 app = Flask(__name__)
 
@@ -23,40 +25,20 @@ def addBlockPage():
 # endpoint for creating a block entry in the database
 @app.route("/addblockrequest", methods=["POST"])
 def addBlock():
-    functionName = str(request.form['blockName'])
-    # Arrange args in a dict form
-    # -----------------------------
+    blockName = str(request.form['blockName'])
     args = str(request.form['args'])
     filePath = str(request.form['filePath'])
-    filePath = filePath.replace("\\", '/')
-    # explicit in and out [] function
-    # to be made
-    # -------------------------
     out = str(request.form['out'])
     ins = str(request.form['in'])
-    block = {"functionName": functionName,
-             "args": args, "filePath": filePath, "out": out, "in": ins}
-    # python way to split the data
-    sect = filePath.split("/")
-    c = db
-    for i in range(0, len(sect)-1):
-        c = c.child(sect[i])
-    c = c.child(functionName)
-    c.set(block)
-    return render_template("successfullBlock.html", blockName=functionName)
+    requestComp = addblock(blockName, args, ins, out, filePath)
+    return render_template("successfullBlock.html", blockName=requestComp)
 
 
 # endpoint to show all the users
 @app.route("/getBlocks", methods=["GET"])
 def get_blocks():
-    # specific type of data demanding code
-    """
     json_ = request.json
-    if(json_["type"]=="all"):
-        return jsonify(data)
-    """
-    # current code
-    allBlocks = db.child("Python").get()
+    allBlocks = getblock(json_)
     return jsonify(allBlocks.val())
 
 
@@ -64,68 +46,13 @@ def get_blocks():
 @app.route('/giveBlock', methods=['POST', 'GET'])
 def block():
     try:
-        # To be updated according to the new sample json file
-        # -------------------------------------------------
-
         # json file with the requirements from the client side
         json_ = request.json
         # getting file paths from the database
         # getting the json files and list of filepaths from the json file
         # json_[filePaths] is the list containing the relative file paths of the files
-        filePaths = [block["filePath"] for block in json_["blocks"]]
-        # compiling the file paths from the database
-        filepathMaster = os.path.join(os.getcwd(), "covFile.py")
-        for i in range(len(filePaths)):
-            rfilePath = filePaths[i]
-            # path gen code
-            filePaths[i] = os.path.join(
-                os.getcwd(), "BuildCodeBlocksAPI", "Blocks", rfilePath)
-        # reversing file paths for the correct order
-        filePaths.reverse()
-        # writing output to another file
-        with open(filepathMaster, "w") as out_file:
-            for filePath in filePaths:
-                with open(filePath, "r") as in_file:
-                    for l in in_file.readlines():
-                        out_file.writelines(l)
-                    out_file.writelines("\n\n")
-            # Main function code for running the code generated in the recent file
-            mainFunctionCode = 'if __name__ == "__main__":'
-            # Combining Function Code with args
-            fullFunctions = []
-            # not needed but of safety purposes
-            currFunctionList = []
-            for i in range(len(json_["blocks"])):
-                function = json_["blocks"][i]
-                currFunctionList.append(function)
-                functionName = function["blockName"]
-                args = function["args"]
-                out = function["out"]
-                try:
-                    inp = function["in"]
-                    # can support multiple input by split function
-                    # currently not supported multiple inputs
-                    for i in currFunctionList:
-                        if(i["functionName"] == inp):
-                            inpo = i["out"]
-                            break
-                except:
-                    inpo = None
-                if(inpo == None):
-                    newFunctionName = out+"="+functionName+"("+args+")"
-                else:
-                    newFunctionName = out+"=" + \
-                        functionName+"("+args+","+inpo+")"
-                fullFunctions.append(newFunctionName)
-
-            runningCode = ""
-            for functionName in fullFunctions:
-                runningCode = runningCode+"\n\t"+functionName
-
-            additional_code = mainFunctionCode+runningCode
-            out_file.writelines(additional_code)
-            # if file completing successfull then status 1 else status 0
-        return jsonify({'fileStatus': "1"})
+        fileStatus = codeGenerator(json_)
+        return jsonify({'fileStatus': fileStatus})
     except:
         return jsonify({'trace': traceback.format_exc()})
 
