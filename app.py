@@ -2,8 +2,6 @@
 from flask import Flask, request, jsonify, send_file, render_template
 import traceback
 import os
-# importing database created from the database.py file
-from database import db
 from getBlock import getblock
 from addBlock import addblock
 from codeGen import codeGenerator
