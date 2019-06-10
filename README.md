@@ -1,8 +1,7 @@
-# BuildCode
-An Easy to use online tool for code generation for complicated things.
+# BuildCodeBlocks
 
-Link to API currently hosted on two platforms 
-1.Heroku
-https://build-code.herokuapp.com/
-2.PythonAnywhre
-http://buildcode.pythonanywhere.com/
+![BulidCodeBlocksLogo](https://ibb.co/cbxc68p)
+An Easy to use online tool for code generation for complicated things.</i>
+
+![code coverage](https://img.shields.io/badge/coverage-10-red.svg)
+![version](https://img.shields.io/badge/version-0.1-blue.svg)
