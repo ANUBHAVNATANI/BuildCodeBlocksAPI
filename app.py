@@ -37,13 +37,15 @@ def addBlock():
 # endpoint to show all the users
 @app.route("/getBlocks", methods=["GET"])
 def get_blocks():
-    json_ = request.json
-    allBlocks = getblock(json_)
+    qtype = request.args.get('type')
+    if(qtype == None):
+        return jsonify({"message": "inavlied query string"})
+    allBlocks = getblock(qtype)
     return jsonify(allBlocks.val())
 
 
 # this code generates a cov_file in which the resulting code resides till now
-@app.route('/giveBlock', methods=['POST', 'GET'])
+@app.route('/generateCode', methods=['POST', 'GET'])
 def block():
     try:
         # json file with the requirements from the client side
