@@ -41,7 +41,7 @@ def get_blocks():
     if(qtype == None):
         return jsonify({"message": "inavlied query string"})
     allBlocks = getblock(qtype)
-    return jsonify(allBlocks.val())
+    return jsonify({"Blocks": [allBlocks.val()]})
 
 
 # this code generates a cov_file in which the resulting code resides till now
